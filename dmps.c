@@ -25,24 +25,27 @@ int main (int argc, char ** argv) {
   int i;
   unsigned int cylinder, sector;
   unsigned char buffer[BUFSIZE];
-  
+
   if (argc != 3) {
-    printf("Usage:\n\tdmps <cylinder> <sector>\n");
+    printf("Usage:\n\tdmps <cylinder (1 to 16)> <sector (1 to 16)>\n");
     exit(EXIT_FAILURE);
   }
 
+  // Récupération des arguments
   cylinder = atoi(argv[1]);
   sector = atoi(argv[2]);
 
+  // Initialisation
   assert(init_hardware(HARDWARE_INI));
   for(i = 0; i < 15; i++)
     IRQVECTOR[i] = empty_it;
+
+  // Lecture du secteur puis affichage
   read_sector(cylinder,sector,buffer);
   hex_dump(buffer);
 
   exit(EXIT_SUCCESS);
 }
-
 
 static void
 empty_it()
