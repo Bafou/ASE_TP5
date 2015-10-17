@@ -99,15 +99,15 @@ void write_sectorn(unsigned int cylinder, unsigned int sector, const unsigned ch
  * @param nsector le nombre de secteur à formater
  * @param value la valeur à initialiser
  */
-void format_sector(unsigned int cylinder,unsigned int sector, unsigned int nsector, unsigned int value) {
+void format_sector(unsigned int cylinder,unsigned int sector, unsigned int nbsector, unsigned int value) {
   seek(cylinder, sector);
   _sleep(HDA_IRQ);
-  _out(HDA_DATAREGS, 0);
-  _out(HDA_DATAREGS + 1, 1);
-  _out(HDA_DATAREGS + 2, 0);
-  _out(HDA_DATAREGS + 3, 0);
-  _out(HDA_DATAREGS + 4, 0);
-  _out(HDA_DATAREGS + 5, 0);
+  _out(HDA_DATAREGS, (nbsector >> 8) & 0xFF);
+  _out(HDA_DATAREGS + 1, (nbsector) & 0xFF);
+  _out(HDA_DATAREGS + 2, (value >> 24) & 0xFF);
+  _out(HDA_DATAREGS + 3, (value >> 16) & 0xFF);
+  _out(HDA_DATAREGS + 4, (value >> 8) & 0xFF);
+  _out(HDA_DATAREGS + 5, (value) & 0xFF);
   _out(CMD_REG, CMD_FORMAT);
   _sleep(HDA_IRQ);
   return;
