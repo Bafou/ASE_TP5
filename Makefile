@@ -29,4 +29,4 @@ clean:
 
 realclean:
 	make clean
-	rm -rf $(EXEC)
+	rm -rf $(EXEC) vdisk*.bin
