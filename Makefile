@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-m32 -g
 CLIB=-I./include -L./lib -lhardware
-EXEC=dmps frmt
+EXEC=dmps frmt frmt_reverse
 
 
 all: $(EXEC)
@@ -11,6 +11,9 @@ dmps: dmps.o Driver.o
 
 frmt: frmt.o Driver.o
 	$(CC) -o $@ $^ $(CFLAGS) $(CLIB)
+
+frmt_reverse: frmt_reverse.o Driver.o
+		$(CC) -o $@ $^ $(CFLAGS) $(CLIB)
 
 Driver.o: Driver.c Driver.h
 	$(CC) -o $@ -c $< $(CFLAGS) $(CLIB)

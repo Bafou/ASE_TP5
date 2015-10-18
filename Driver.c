@@ -93,7 +93,7 @@ void write_sectorn(unsigned int cylinder, unsigned int sector, const unsigned ch
   return;
 }
 /*
- * Formate les données de la piste cylinder, secteur sector
+ * Formate les données sur nbsector secteurs à partir de la piste cylinder, secteur sector
  * @param cylinder le numéro de piste
  * @param sector le numéro de secteur
  * @param nsector le nombre de secteur à formater
@@ -111,4 +111,26 @@ void format_sector(unsigned int cylinder,unsigned int sector, unsigned int nbsec
   _out(CMD_REG, CMD_FORMAT);
   _sleep(HDA_IRQ);
   return;
+}
+/*
+ * Formate les données sur nbsector secteurs à partir de la piste cylinder, secteur sector mais à l'envers
+ * @param cylinder le numéro de piste
+ * @param sector le numéro de secteur
+ * @param nsector le nombre de secteur à formater
+ * @param value la valeur à initialiser
+ */
+void format_sector_reverse(unsigned int cylinder, unsigned int sector, unsigned int nbsector, unsigned int value){
+  int i;
+  for (i = 0; i < nbsector; i++){
+    seek(cylinder, ((sector-i) % HDA_MAXSECTOR));
+    _sleep(HDA_IRQ);
+    _out(HDA_DATAREGS, 0);
+    _out(HDA_DATAREGS + 1, 1);
+    _out(HDA_DATAREGS + 2, (value >> 24) & 0xFF);
+    _out(HDA_DATAREGS + 3, (value >> 16) & 0xFF);
+    _out(HDA_DATAREGS + 4, (value >> 8) & 0xFF);
+    _out(HDA_DATAREGS + 5, (value) & 0xFF);
+    _out(CMD_REG, CMD_FORMAT);
+    _sleep(HDA_IRQ);
+  }
 }

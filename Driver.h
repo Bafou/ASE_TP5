@@ -36,12 +36,19 @@ void write_sector(unsigned int cylinder, unsigned int sector, const unsigned cha
  */
 void write_sectorn(unsigned int cylinder, unsigned int sector, const unsigned char * buffer, unsigned int bufsize);
 /*
- * Formate les données de la piste cylinder, secteur sector
+ * Formate les données sur nbsector secteurs à partir de la piste cylinder, secteur sector
  * @param cylinder le numéro de piste
  * @param sector le numéro de secteur
  * @param nsector le nombre de secteur à formater
  * @param value la valeur à initialiser
  */
 void format_sector(unsigned int cylinder,unsigned int sector, unsigned int nbsector, unsigned int value);
-
+/*
+ * Formate les données sur nbsector secteurs à partir de la piste cylinder, secteur sector mais à l'envers
+ * @param cylinder le numéro de piste
+ * @param sector le numéro de secteur
+ * @param nsector le nombre de secteur à formater
+ * @param value la valeur à initialiser
+ */
+void format_sector_reverse(unsigned int cylinder, unsigned int sector, unsigned int nbsector, unsigned int value);
 #endif
